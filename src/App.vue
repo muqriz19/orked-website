@@ -1,30 +1,41 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <div class="appContainer">
+    <div class="header">
+      <NavbarPanel></NavbarPanel>
+    </div>
+
+    <div class="page">
+      <router-view />
+    </div>
+
+    <BecomeMemberModal></BecomeMemberModal>
+  </div>
 </template>
 
+<script lang="ts">
+import { defineComponent, onMounted } from "vue";
+import NavbarPanel from "./components/NavbarPanel.vue";
+import BecomeMemberModal from "./components/BecomeMemberModal.vue";
+import { toggleModal } from "./shared/ui";
+
+export default defineComponent({
+  components: {
+    NavbarPanel,
+    BecomeMemberModal,
+  },
+  setup() {
+    onMounted(() => {
+      toggleModal("becomeMemberModal", true);
+    });
+    return {};
+  },
+});
+</script>
+
 <style lang="less">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+.appContainer {
+  .page {
+    height: 100vh;
   }
 }
 </style>

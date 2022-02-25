@@ -1,0 +1,20 @@
+@text-color: #f5f5f5;
+@discrete-color: #b8b8b8;
+@secondary-color: #aeb8c1;
+@white: #fff;
+@black: #080708;
+@hover-link: #0a54ff;
+
+.blendLinkBox() {
+  &:hover,
+  &:active {
+    cursor: pointer;
+    transform: scale(1.2);
+    transition: ease-in 0.1s;
+
+    .linkText {
+      color: @white;
+      background-color: @black;
+    }
+  }
+}
