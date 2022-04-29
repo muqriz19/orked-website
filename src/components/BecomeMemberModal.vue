@@ -19,26 +19,23 @@
         <form>
           <div class="columns is-desktop">
             <div class="field column">
-              <label class="label">First Name</label>
+              <label class="label">Full Name</label>
               <div class="control">
                 <input
                   class="input is-small"
                   type="text"
-                  name="first-name"
-                  placeholder="First Name"
+                  name="fullname"
+                  placeholder="Fullname"
+                  v-model="form.fullname"
                 />
               </div>
-            </div>
 
-            <div class="field column">
-              <label class="label">Last Name</label>
-              <div class="control">
-                <input
-                  class="input is-small"
-                  type="text"
-                  name="last-name"
-                  placeholder="Last Name"
-                />
+              <div
+                class="input-errors"
+                v-for="error of v$.fullname.$errors"
+                :key="error.$uid"
+              >
+                <div class="error-msg">{{ error.$message }}</div>
               </div>
             </div>
           </div>
@@ -49,36 +46,19 @@
               <div class="control">
                 <input
                   class="input is-small"
-                  type="text"
+                  type="email"
                   name="email"
                   placeholder="Email"
+                  v-model="form.email"
                 />
               </div>
-            </div>
-          </div>
 
-          <div class="columns">
-            <div class="field column">
-              <label class="label">Phone Number (Optional)</label>
-              <div class="control is-flex">
-                <div class="select is-small">
-                  <select name="phone-code">
-                    <option value="null">+00</option>
-                    <option
-                      v-for="phone of allcountriesandPhones"
-                      :key="phone.name"
-                      :value="phone.dial_code"
-                    >
-                      {{ phone.dial_code }}
-                    </option>
-                  </select>
-                </div>
-                <input
-                  class="input is-small"
-                  type="text"
-                  name="phone"
-                  placeholder="Phone"
-                />
+              <div
+                class="input-errors"
+                v-for="error of v$.email.$errors"
+                :key="error.$uid"
+              >
+                <div class="error-msg">{{ error.$message }}</div>
               </div>
             </div>
           </div>
@@ -88,7 +68,7 @@
               <label class="label">Country</label>
               <div class="control">
                 <div class="select is-small">
-                  <select name="country">
+                  <select name="country" v-model="form.country">
                     <option value="null">Select country</option>
                     <option
                       v-for="country of allcountriesandPhones"
@@ -100,13 +80,21 @@
                   </select>
                 </div>
               </div>
+
+              <div
+                class="input-errors"
+                v-for="error of v$.country.$errors"
+                :key="error.$uid"
+              >
+                <div class="error-msg">{{ error.$message }}</div>
+              </div>
             </div>
 
             <div class="field column">
               <label class="label">Gender</label>
               <div class="control">
                 <div class="select is-small is-fullwidth">
-                  <select name="gender">
+                  <select name="gender" v-model="form.gender">
                     <option value="null">Select gender</option>
                     <option
                       v-for="gender of genders"
@@ -118,6 +106,14 @@
                   </select>
                 </div>
               </div>
+
+              <div
+                class="input-errors"
+                v-for="error of v$.gender.$errors"
+                :key="error.$uid"
+              >
+                <div class="error-msg">{{ error.$message }}</div>
+              </div>
             </div>
           </div>
 
@@ -125,12 +121,7 @@
             <div class="field column">
               <label class="label">Birth Date</label>
               <div class="control">
-                <input
-                  class="input is-small"
-                  type="text"
-                  name="dob"
-                  placeholder="Birth Date"
-                />
+                <datepicker v-model="form.dob" class="input is-small" />
               </div>
             </div>
           </div>
@@ -139,7 +130,7 @@
             <div class="field column">
               <div class="control">
                 <label class="checkbox">
-                  <input type="checkbox" />
+                  <input type="checkbox" v-model="form.agree" />
                   I would like to receive communication from the Orked Team.
                 </label>
               </div>
@@ -156,7 +147,14 @@
 
           <div class="columns mt-4">
             <div class="column">
-              <input class="button" type="submit" value="Submit" />
+              <button
+                class="button"
+                type="button"
+                :disabled="v$.invalid"
+                @click="onBecomeMember"
+              >
+                Submit
+              </button>
             </div>
           </div>
         </form>
@@ -168,10 +166,16 @@
 
 <script lang="ts">
 import { toggleModal } from "@/shared/ui";
-import { defineComponent, ref } from "vue";
+import { defineComponent, onMounted, reactive, ref } from "vue";
 import { countriesAndPhones } from "../shared/countriesandphone";
+import useVuelidate from "@vuelidate/core";
+import { required, email, helpers } from "@vuelidate/validators";
+import Datepicker from "vue3-datepicker";
 
 export default defineComponent({
+  components: {
+    datepicker: Datepicker,
+  },
   setup() {
     const allcountriesandPhones = ref(countriesAndPhones);
     const genders = ref([
@@ -179,14 +183,72 @@ export default defineComponent({
       { gender: "female", name: "Female" },
     ]);
 
+    const form = reactive({
+      fullname: "",
+      email: "",
+      phoneCode: "null",
+      // phone: "",
+      dob: new Date(),
+      gender: "null",
+      country: "null",
+      agree: false,
+    });
+
+    const cannotBeNull = (value: string) => value.includes("null");
+    const cannotBeEmpty = (value: string) => value === "";
+
+    const rules = {
+      fullname: {
+        required: helpers.withMessage("Fullname is required", required),
+        cannotBeEmpty,
+      },
+      email: {
+        required: helpers.withMessage("Email is required", required),
+        email: helpers.withMessage("Valid email is required", email),
+        cannotBeEmpty,
+      },
+      // phone: {},
+      dob: {
+        required: helpers.withMessage("Date of Birth is required", required),
+      },
+      gender: {
+        required: helpers.withMessage("Select a gender", required),
+        cannotBeNull,
+      },
+      country: {
+        required: helpers.withMessage("Country is required", required),
+        cannotBeNull,
+      },
+      agree: {
+        required: helpers.withMessage(
+          "Agree to terms and conditions required",
+          required
+        ),
+      },
+    };
+
+    const v$ = useVuelidate(rules, form);
+
+    onMounted(() => {
+      v$.value.$touch();
+    });
+
     function closeModal() {
       toggleModal("becomeMemberModal", false);
+    }
+
+    function onBecomeMember() {
+      console.log(form);
+      console.dir(form);
     }
 
     return {
       closeModal,
       genders,
       allcountriesandPhones,
+      form,
+      v$,
+      onBecomeMember,
     };
   },
 });

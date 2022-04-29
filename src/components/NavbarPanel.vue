@@ -1,20 +1,13 @@
 <template>
-  <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <a class="navbar-item" href="#">
-        <!-- <img
-          src="https://bulma.io/images/bulma-logo.png"
-          width="112"
-          height="28"
-        /> -->
-      </a>
-
       <a
         role="button"
         class="navbar-burger"
         aria-label="menu"
         aria-expanded="false"
         data-target="navbarBasicExample"
+        @click="toggleNav"
       >
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
@@ -22,10 +15,12 @@
       </a>
     </div>
 
-    <div id="navbarBasicExample" class="navbar-menu">
+    <div
+      id="navbarBasicExample"
+      class="navbar-menu"
+      :class="isActive ? 'is-active' : ''"
+    >
       <div class="navbar-start">
-        <!-- <a class="navbar-item"> Home </a>
-         -->
         <router-link
           :to="route.path"
           v-for="route of allRoutePages"
@@ -34,13 +29,16 @@
           :class="route.isActive ? 'is-active' : ''"
           >{{ route.name }}
         </router-link>
+
+        <a class="navbar-item" @click="openModalMember">Become a Member</a>
       </div>
     </div>
   </nav>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, watch } from "vue";
+import { toggleModal } from "@/shared/ui";
+import { defineComponent, onMounted, ref, watch, onBeforeUnmount } from "vue";
 import { useRoute } from "vue-router";
 import { allRoutes } from "../shared/routes";
 
@@ -49,6 +47,7 @@ export default defineComponent({
   setup() {
     const route = useRoute();
     const allRoutePages = ref(allRoutes);
+    let isActive = ref(false);
 
     onMounted(() => {
       const path = route.path;
@@ -58,6 +57,12 @@ export default defineComponent({
     watch(route, () => {
       const currentPath = route.path;
       setActive(currentPath);
+    });
+
+    onBeforeUnmount(() => {
+      window.removeEventListener("resize", () => {
+        return;
+      });
     });
 
     function setActive(path: string) {
@@ -70,11 +75,40 @@ export default defineComponent({
       });
     }
 
+    function toggleNav() {
+      isActive.value = !isActive.value;
+    }
+
+    function openModalMember() {
+      toggleModal("becomeMemberModal", true);
+    }
+
     return {
       allRoutePages,
+      isActive,
+      toggleNav,
+      openModalMember,
     };
   },
 });
 </script>
 
-<style scoped></style>
+<style lang="less" scoped>
+.navbar-menu.is-active {
+  display: block;
+  z-index: 99999;
+  position: sticky;
+  width: 100%;
+}
+
+a.navbar-item.is-active {
+  background-color: #363636 !important;
+  color: #fff;
+}
+
+a.navbar-item:hover {
+  background-color: #363636;
+  color: #fff;
+  opacity: 0.4;
+}
+</style>

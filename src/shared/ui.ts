@@ -15,3 +15,15 @@ export function toggleModal(modalId: string, showModal: boolean) {
     }
   });
 }
+
+export function formatText(text: string, action: string) {
+  let theText = text;
+
+  if (action === "caps") {
+    const firstCap = text.charAt(0).toUpperCase();
+
+    theText = firstCap + text.slice(1);
+  }
+
+  return theText;
+}

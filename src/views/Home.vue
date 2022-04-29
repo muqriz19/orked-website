@@ -14,7 +14,9 @@
           floral and woody.
         </p>
 
-        <a class="discoverMoreLink">Discover More</a>
+        <router-link class="discoverMoreLink" :to="'/fragrances'"
+          >Discover More</router-link
+        >
       </div>
     </div>
 
@@ -47,7 +49,7 @@ export default defineComponent({
       },
       {
         title: "Giftsets",
-        image: require("@/assets/images/misc/orked-giftset.jpg"),
+        image: require("@/assets/images/misc/orkedgiftset/0.jpg"),
         path: "/otherproducts",
       },
       {
@@ -86,6 +88,7 @@ export default defineComponent({
     height: 450px;
     width: 700px;
     margin: 25px;
+    box-shadow: 0px 0px 1px @black;
 
     .orkedLogo {
       height: 30%;
@@ -135,11 +138,10 @@ export default defineComponent({
     .linkBox {
       width: 300px;
       height: 300px;
-
       display: flex;
       flex-direction: column-reverse;
-
       transition: ease-in 0.1s;
+      box-shadow: 0px 0px 1px @black;
 
       .blendLinkBox();
 

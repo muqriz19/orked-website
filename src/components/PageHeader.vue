@@ -16,9 +16,6 @@ export default defineComponent({
 
     onMounted(() => {
       router.afterEach((to, from) => {
-        console.log("to", to);
-        console.log("from", from);
-
         pageHeaderTitle.value = String(
           to.name?.toString() as string
         ).toUpperCase();

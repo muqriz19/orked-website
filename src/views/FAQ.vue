@@ -32,7 +32,6 @@ export default defineComponent({
   padding: 10px;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
 
   .faq-container {
     padding: 5px;
