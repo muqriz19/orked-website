@@ -6,10 +6,23 @@
       </div>
 
       <div class="image-section">
-        <img :src="currentFragrance.path.image" alt="" srcset="" />
+        <img
+          :src="
+            require('@/assets/images/fragrances/' +
+              currentFragrance.image.folder +
+              '/0.jpg')
+          "
+          :alt="currentFragrance.name"
+        />
       </div>
 
-      <div class="meta-section"></div>
+      <div class="meta-section">
+        <div class="description">
+          <p>
+            {{ currentFragrance.description }}
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
