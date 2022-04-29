@@ -20,7 +20,7 @@
             v-for="perfume in allPerfumes"
             :key="perfume.id"
           >
-            <router-link :to="'/fragrances/' + perfume.id">
+            <router-link :to="'/product/' + perfume.id">
               <img
                 :src="
                   require('@/assets/images/fragrances/' +
