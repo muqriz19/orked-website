@@ -23,10 +23,12 @@ const routes: Array<RouteRecordRaw> = [
       import(/* webpackChunkName: "fragrances" */ "../views/Fragrances.vue"),
   },
   {
-    path: "/product/:id",
-    name: "product-id",
+    path: "/fragrances/:id",
+    name: "fragrances-id",
     component: () =>
-      import(/* webpackChunkName: "productId" */ "../views/ProductItem.vue"),
+      import(
+        /* webpackChunkName: "fragrancesId" */ "../views/FragranceById.vue"
+      ),
   },
   {
     path: "/otherproducts",
@@ -52,6 +54,8 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+  linkActiveClass: "is-active",
+  linkExactActiveClass: "is-exact-active",
 });
 
 export default router;

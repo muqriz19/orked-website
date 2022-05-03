@@ -20,7 +20,7 @@
             v-for="perfume in allPerfumes"
             :key="perfume.id"
           >
-            <router-link :to="'/product/' + perfume.id">
+            <router-link :to="'/fragrances/' + perfume.id">
               <img
                 :src="
                   require('@/assets/images/fragrances/' +
@@ -33,7 +33,9 @@
               />
 
               <div class="perfumeDetails">
-                <p class="perfumeName textHeader">{{ perfume.name }}</p>
+                <p class="perfumeName textHeader">
+                  {{ perfume.name.toUpperCase() }}
+                </p>
                 <p class="perfumeDescription">{{ perfume.description }}</p>
               </div>
             </router-link>
@@ -49,7 +51,7 @@
 <script lang="ts">
 import { defineComponent, reactive } from "vue";
 import { perfumes } from "../shared/orked";
-import { formatText } from "../shared/ui";
+import { formatText } from "../shared/utils";
 
 export default defineComponent({
   name: "FragrancesPage",
@@ -74,8 +76,9 @@ export default defineComponent({
     flex-direction: column;
     align-items: center;
     .allPerfumesImage {
-      height: 500px;
-      width: 500px;
+      height: 100%;
+      width: 100%;
+      padding: 5px;
     }
   }
   .singlePerfumesContainer {
@@ -106,6 +109,12 @@ export default defineComponent({
 
 @media screen and (max-width: 800px) {
   .fragrancesPageContainer {
+    .allPerfumes {
+      .allPerfumesImage {
+        height: 50vh;
+      }
+    }
+
     .singlePerfumesContainer {
       .perfumeContainerWrapper {
         .perfumeContainer {

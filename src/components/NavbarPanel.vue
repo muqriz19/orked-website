@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar" role="navigation" aria-label="main navigation">
+  <nav class="navbar web-header" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <a
         role="button"
@@ -26,7 +26,6 @@
           v-for="route of allRoutePages"
           :key="route.name"
           class="navbar-item"
-          :class="route.isActive ? 'is-active' : ''"
           >{{ route.name }}
         </router-link>
 
@@ -37,7 +36,7 @@
 </template>
 
 <script lang="ts">
-import { toggleModal } from "@/shared/ui";
+import { toggleModal } from "@/shared/utils";
 import { defineComponent, onMounted, ref, watch, onBeforeUnmount } from "vue";
 import { useRoute } from "vue-router";
 import { allRoutes } from "../shared/routes";
@@ -94,6 +93,12 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
+.navbar {
+  position: fixed;
+  z-index: 30;
+  width: 100%;
+}
+
 .navbar-menu.is-active {
   display: block;
   z-index: 99999;
@@ -101,7 +106,8 @@ export default defineComponent({
   width: 100%;
 }
 
-a.navbar-item.is-active {
+a.navbar-item.is-active,
+.is-exact-active {
   background-color: #363636 !important;
   color: #fff;
 }

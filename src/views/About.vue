@@ -59,6 +59,7 @@ export default defineComponent({
     .content {
       text-align: justify;
       letter-spacing: 0.5px;
+      padding: 15px 0px 10px 0;
     }
   }
 }

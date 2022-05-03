@@ -1,5 +1,8 @@
 <template>
   <div class="faqPageContainer m-5">
+    <div class="header">
+      <h1>Questions about Orked and its products...</h1>
+    </div>
     <div
       class="faq-container mt-5 mb-5"
       v-for="(faq, index) of faqs"
@@ -32,6 +35,10 @@ export default defineComponent({
   padding: 10px;
   display: flex;
   flex-direction: column;
+
+  .header {
+    font-size: 35px;
+  }
 
   .faq-container {
     padding: 5px;

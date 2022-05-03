@@ -165,7 +165,7 @@
 </template>
 
 <script lang="ts">
-import { toggleModal } from "@/shared/ui";
+import { toggleModal } from "@/shared/utils";
 import { defineComponent, onMounted, reactive, ref } from "vue";
 import { countriesAndPhones } from "../shared/countriesandphone";
 import useVuelidate from "@vuelidate/core";
