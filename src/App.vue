@@ -4,7 +4,7 @@
       <NavbarPanel></NavbarPanel>
     </div>
 
-    <div class="page">
+    <div class="page" :style="'padding-top:' + pagePadding + 'px'">
       <router-view />
     </div>
 
@@ -13,10 +13,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from "vue";
+import { defineComponent, onMounted, ref } from "vue";
 import NavbarPanel from "./components/NavbarPanel.vue";
 import BecomeMemberModal from "./components/BecomeMemberModal.vue";
-import { toggleModal } from "./shared/ui";
+import { toggleModal } from "./shared/utils";
 
 export default defineComponent({
   components: {
@@ -24,10 +24,25 @@ export default defineComponent({
     BecomeMemberModal,
   },
   setup() {
+    let pagePadding = ref(0);
+
     onMounted(() => {
       toggleModal("becomeMemberModal", true);
+
+      pagePadding.value = getHeaderSpacing();
     });
-    return {};
+
+    function getHeaderSpacing(): number {
+      const navbar = document.querySelector(".web-header");
+
+      const navbarHeight = navbar?.clientHeight || 0;
+
+      return navbarHeight;
+    }
+
+    return {
+      pagePadding,
+    };
   },
 });
 </script>
