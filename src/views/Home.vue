@@ -49,7 +49,7 @@ export default defineComponent({
       },
       {
         title: "Giftsets",
-        image: require("@/assets/images/misc/orkedgiftset/0.jpg"),
+        image: require("@/assets/images/fragrances/orkedgiftset/0.jpg"),
         path: "/otherproducts",
       },
       {

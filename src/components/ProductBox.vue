@@ -24,7 +24,14 @@
         </p>
       </div>
 
-      <div class="keynotes">
+      <div
+        class="keynotes"
+        v-if="
+          theItem.keynotes.top.length !== 0 &&
+          theItem.keynotes.mid.length !== 0 &&
+          theItem.keynotes.base.length !== 0
+        "
+      >
         <p class="keynote-main-header">Keynotes</p>
 
         <div class="keynotes-wrappers">
@@ -94,14 +101,30 @@ export default {
         const currentRandomNumber = random(1, 4);
 
         if (currentRandomNumber !== numberImage.value) {
-          numberImage.value = currentRandomNumber;
+          const imageSuccess = tryImage(currentRandomNumber);
+
+          if (imageSuccess) {
+            numberImage.value = currentRandomNumber;
+          }
         }
-      }, 7000);
+      }, 5000);
     });
 
     onUnmounted(() => {
       clearInterval(intervalState);
     });
+
+    function tryImage(numImage: number) {
+      try {
+        require("@/assets/images/fragrances/" +
+          theItemImage.value +
+          numImage +
+          ".jpg");
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
 
     function returnItem(id: any) {
       const items = [...perfumes, ...allOtherProducts];

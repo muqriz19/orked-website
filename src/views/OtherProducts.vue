@@ -5,32 +5,18 @@
     </div>
     <div class="center-item">
       <div class="otherProductsContainer gridBoxContainer-2">
-        <div
-          class="otherproduct gridBox"
+        <router-link
           v-for="other in otherProducts"
           :key="other.id"
-        >
-          <img
-            :src="require('@/assets/images/' + other.image.folder + '/0.jpg')"
-            :alt="other.name"
-            :title="other.name"
-            class="otherImage"
-          />
-
-          <div class="otherDetails">
-            <p class="otherName textHeader">{{ other.name.toUpperCase() }}</p>
-            <p class="otherDescription">{{ other.description }}</p>
-          </div>
-        </div>
-
-        <!-- <router-link
-          v-for="other in otherProducts"
-          :key="other.id"
-          :to="'/fragrances/' + other.id"
+          :to="'/otherproducts/' + other.id"
         >
           <div class="otherproduct gridBox">
             <img
-              :src="require('@/assets/images/' + other.image.folder + '/0.jpg')"
+              :src="
+                require('@/assets/images/fragrances/' +
+                  other.image.folder +
+                  '/0.jpg')
+              "
               :alt="other.name"
               :title="other.name"
               class="otherImage"
@@ -41,7 +27,7 @@
               <p class="otherDescription">{{ other.description }}</p>
             </div>
           </div>
-        </router-link> -->
+        </router-link>
       </div>
     </div>
   </div>

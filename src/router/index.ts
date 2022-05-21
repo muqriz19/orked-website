@@ -26,9 +26,7 @@ const routes: Array<RouteRecordRaw> = [
     path: "/fragrances/:id",
     name: "fragrances-id",
     component: () =>
-      import(
-        /* webpackChunkName: "fragrancesId" */ "../views/FragranceById.vue"
-      ),
+      import(/* webpackChunkName: "fragrancesId" */ "../views/ProductById.vue"),
   },
   {
     path: "/otherproducts",
@@ -36,6 +34,14 @@ const routes: Array<RouteRecordRaw> = [
     component: () =>
       import(
         /* webpackChunkName: "otherproducts" */ "../views/OtherProducts.vue"
+      ),
+  },
+  {
+    path: "/otherproducts/:id",
+    name: "otherproducts-id",
+    component: () =>
+      import(
+        /* webpackChunkName: "otherproductsId" */ "../views/ProductById.vue"
       ),
   },
   {

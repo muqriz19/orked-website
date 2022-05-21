@@ -4,7 +4,7 @@ export const allOtherProducts = [
     name: "Orked Discovery Set",
     image: {
       path: "@/assets/images/fragrances/discoveryset/",
-      folder: "fragrances/discoveryset",
+      folder: "discoveryset",
     },
     recommend: false,
     description:
@@ -21,7 +21,7 @@ export const allOtherProducts = [
     name: "Orked Gift Set",
     image: {
       path: "@/assets/images/misc/orkedgiftset/",
-      folder: "misc/orkedgiftset",
+      folder: "orkedgiftset",
     },
     recommend: false,
     description:
